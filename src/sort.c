@@ -1,4 +1,8 @@
+#include<stdio.h>
+#include<stdlib.h>
+
 #include "sort.h"
+
 #define MAX_TAM 10
 
 
@@ -30,29 +34,39 @@ void selecao(Vetor a, int *n) {
         a[i] = x;
     }
 }*/
+void swap(int *array, int index, int j){
+
+    int temp = array[index];
+    array[index] = array[j];
+    array[j] = temp;
+}
+
+void print_array(int* vector, int n) {
+	printf("Vetor de %d entradas\n", n);
+	for (int i = 0; i < n; i++) {
+		printf("% 3d ", vector[i]);
+	}
+	printf("\n");
+}
 
 int selection_sort(int *array, int size){
-    int aux;
+    int aux, mim_index;
+      print_array(array,size);
 
     // realiza a comparação da primeira posição do vetor com a próxima
-    for(int j=0; j < size-1; j++){
-        int mim_index = j; // o mínimo começa sendo a primeira posição do vetor
-           
-        for(int i=0; i<size; i++){
+    for(int j=0; j < size-1; j++){ //roda 4x
+        mim_index = j; // o mínimo começa sendo a primeira posição do vetor
+
+        for(int i=0; i<size; i++){//roda 5x
 
             if(array[i] < array[mim_index]){
                 mim_index = i; // pega onde se encontra a menor posição do vetor
             }
         }
-        //|12|2|3|4|5|6|7|
-        // j
-        if(array[j] > array[mim_index]){// realiza a troca se o a posição do valor for maior que a do mim
-        
-           aux = array[mim_index];
-           array[j] = array[mim_index];
-
-           array[mim_index] = aux; 
-               
-        }
+        swap(array, mim_index, j);
     }
+}
+int insertion_sort(int *array, int size){
+
+
 }
