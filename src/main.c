@@ -6,7 +6,7 @@
 int main(){
 
     int array[]={21,12,3,4,1};
-    int size = sizeof(array)/sizeof(int);
+    int size = sizeof(array)/sizeof(array[0]);
 
     selection_sort(array,size);
     

@@ -34,11 +34,11 @@ void selecao(Vetor a, int *n) {
         a[i] = x;
     }
 }*/
-void swap(int *array, int index, int j){
+void swap(int *a, int *b){
 
-    int temp = array[index];
-    array[index] = array[j];
-    array[j] = temp;
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
 void print_array(int* vector, int n) {
@@ -50,8 +50,7 @@ void print_array(int* vector, int n) {
 }
 
 int selection_sort(int *array, int size){
-    int aux, mim_index;
-      print_array(array,size);
+    int mim_index;
 
     // realiza a comparação da primeira posição do vetor com a próxima
     for(int j=0; j < size-1; j++){ //roda 4x
@@ -63,10 +62,91 @@ int selection_sort(int *array, int size){
                 mim_index = i; // pega onde se encontra a menor posição do vetor
             }
         }
-        swap(array, mim_index, j);
+        swap(&array[mim_index], &array[j]);
     }
 }
 int insertion_sort(int *array, int size){
+    int key, j;
 
+    for (int i = 1; i < n; i++) {
+        key = array[i];
+        j = i - 1;
 
+        while (j >= 0 && array[j] > key) {
+            array[j + 1] = array[j];
+            j = j - 1;
+        }
+
+        array[j + 1] = key;
+    }
 }
+void merge(int *array, int left, int mid, int right){
+
+    int i, j, k;
+
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+ 
+    /* create temp arrays */
+    int L[n1], R[n2];
+ 
+    /* Copy data to temp arrays L[] and R[] */
+    for (int i = 0; i < n1; i++){
+        L[i] = array[l + i];
+    }
+        
+    for (j = 0; j < n2; j++){
+        R[j] = array[m + 1 + j];
+    }
+ 
+    /* Merge the temp arrays back into arr[l..r]*/
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = left; // Initial index of merged subarray
+
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            array[k] = L[i];
+            i++;
+        }
+        else {
+            array[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+ 
+    /* Copy the remaining elements of L[], if there
+    are any */
+    while (i < n1) {
+        array[k] = L[i];
+        i++;
+        k++;
+    }
+ 
+    /* Copy the remaining elements of R[], if there
+    are any */
+    while (j < n2) {
+        array[k] = R[j];
+        j++;
+        k++;
+    }
+}
+ 
+/* l is for left index and r is right index of the
+sub-array of arr to be sorted */
+void mergeSort(int *array, int left, int right){
+
+    if (left < right) {
+        // Same as (l+r)/2, but avoids overflow for
+        // large l and h
+        int mid = left + (right - left) / 2;
+ 
+        // Sort first and second halves
+        mergeSort(array, left, mid);
+        mergeSort(array, mid + 1, right);
+ 
+        merge(array, left, mid, right);
+    }
+}
+
