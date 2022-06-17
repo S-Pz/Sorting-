@@ -1,5 +1,6 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "sort.h"
 
@@ -34,17 +35,54 @@ void selecao(Vetor a, int *n) {
         a[i] = x;
     }
 }*/
-void swap(int *a, int *b){
+
+static int generate_random_number(int min, int max) {
+	float scale = rand() / (float) RAND_MAX;
+	return min + scale * (max - min);
+}
+
+void swap(int *a, int *b) {
 
     int temp = *a;
     *a = *b;
     *b = temp;
 }
 
-void print_array(int* vector, int n) {
-	printf("Vetor de %d entradas\n", n);
+int *generate_random_vet(int n) {
+	int *vet = malloc(n * sizeof(int));
+
 	for (int i = 0; i < n; i++) {
-		printf("% 3d ", vector[i]);
+		vet[i] = generate_random_number(-n, n);
+	}
+
+	return vet;
+}
+
+int *generate_crescent_vet(int n) {
+	int *vet = malloc(n * sizeof(int));
+
+	for (int i = 0; i < n; i++) {
+		vet[i] = i;
+	}
+
+	return vet;
+}
+
+int *generate_descendent_vet(int n) {
+	int *vet = malloc(n * sizeof(int));
+
+	for (int i = 0; i < n; i++) {
+		vet[i] = n - i;
+	}
+
+	return vet;
+}
+
+void print_array(int *array, int n) {
+	printf("Vetor de %d entradas\n", n);
+
+	for (int i = 0; i < n; i++) {
+		printf("% 3d ", array[i]);
 	}
 	printf("\n");
 }
@@ -56,7 +94,7 @@ int selection_sort(int *array, int size){
     for(int j=0; j < size-1; j++){ //roda 4x
         mim_index = j; // o mínimo começa sendo a primeira posição do vetor
 
-        for(int i=0; i<size; i++){//roda 5x
+        for(int i=j; i<size; i++){//roda 5x
 
             if(array[i] < array[mim_index]){
                 mim_index = i; // pega onde se encontra a menor posição do vetor
@@ -65,6 +103,7 @@ int selection_sort(int *array, int size){
         swap(&array[mim_index], &array[j]);
     }
 }
+
 int insertion_sort(int *array, int size){
     int key, j;
 
@@ -80,6 +119,7 @@ int insertion_sort(int *array, int size){
         array[j + 1] = key;
     }
 }
+
 void merge(int *array, int left, int mid, int right){
 
     int i, j, k;
@@ -191,3 +231,22 @@ void quickSort(int *array, int low, int high){
     }
 }
 
+void shellSort(int *array, int size) {
+    int j, value,h = 1;
+ 
+    while(h < size) {
+        h = 3*h+1;
+    }
+    while (h > 0) {
+        for(int i = h; i < size; i++) {
+            value = array[i];
+            j = i;
+            while (j > h-1 && value <= array[j - h]) {
+                array[j] = array[j - h];
+                j = j - h;
+            }
+            array[j] = value;
+        }
+        h = h/3;
+    }
+}
