@@ -6,6 +6,7 @@ int menu1(){
     int aux1;
 
     while (aux1){ 
+MENU:        
         printf("\n ###########################################");
         printf("\n Escolha uma das opcoes\n");
         printf(" DIGITE 1 PARA VERTOR DE 20 ELEMENTOS \n");
@@ -13,7 +14,6 @@ int menu1(){
         printf(" DIGITE 3 PARA VERTOR DE 5000 ELEMENTOS \n");
         printf(" DIGITE 4 PARA VERTOR DE 10000 ELEMENTOS \n");
         printf(" DIGITE 5 PARA VERTOR DE 200000 ELEMENTOS \n");
-        printf(" 0 - Sair\n");
         printf("###########################################\n");
         scanf("%d", &aux1);
         fflush(stdin);

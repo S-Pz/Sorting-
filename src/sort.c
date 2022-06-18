@@ -4,7 +4,15 @@
 
 #include "sort.h"
 
+/* *
+ *
+ * */
 
+int copy(int * array1, int * array,int size){
+    for(int i = 0; i < size; i++) {
+        array1[i] = array[i];
+    }
+}
 
 
 static int generate_random_number(int min, int max) {
@@ -65,10 +73,12 @@ int selection_sort(int *array, int size){
     
     // realiza a comparação da primeira posição do vetor com a próxima
     for(int j=0; j < size-1; j++){ //roda 4x
+        compara++;
         mim_index = j; // o mínimo começa sendo a primeira posição do vetor
 
         for(int i=j; i<size; i++){//roda 5x
-
+            compara++;
+            
             if(array[i] < array[mim_index]){
                 mim_index = i; // pega onde se encontra a menor posição do vetor
                 compara++;
@@ -84,13 +94,14 @@ int insertion_sort(int *array, int size){
     int key, j;
 
     for (int i = 1; i < size; i++) {
+        compara++;
         key = array[i];
         j = i - 1;
 
         while (j >= 0 && array[j] > key) {
+            compara++;
             array[j + 1] = array[j];
             j = j - 1;
-            compara++;
         }
 
         array[j + 1] = key;
@@ -110,13 +121,15 @@ int merge(int *array, int left, int mid, int right){
  
     /* Copy data to temp arrays L[] and R[] */
     for (int i = 0; i < n1; i++){
-        L[i] = array[left + i];
         compara++;
+        L[i] = array[left + i];
+        
     }
         
     for (j = 0; j < n2; j++){
-        R[j] = array[mid + 1 + j];
         compara++;
+        R[j] = array[mid + 1 + j];
+
     }
  
     /* Merge the temp arrays back into arr[l..r]*/
@@ -125,8 +138,8 @@ int merge(int *array, int left, int mid, int right){
     k = left; // Initial index of merged subarray
 
     while (i < n1 && j < n2) {
-
         compara++;
+        
         if (L[i] <= R[j]) {
             array[k] = L[i];
             i++;
@@ -143,19 +156,21 @@ int merge(int *array, int left, int mid, int right){
     /* Copy the remaining elements of L[], if there
     are any */
     while (i < n1) {
+        compara++;
         array[k] = L[i];
         i++;
         k++;
-        compara++;
+        
     }
  
     /* Copy the remaining elements of R[], if there
     are any */
     while (j < n2) {
+        compara++;
         array[k] = R[j];
         j++;
         k++;
-        compara++;
+        
     }
     return compara;
 }
@@ -165,8 +180,9 @@ sub-array of arr to be sorted */
 int mergeSort(int *array, int left, int right){
     int compara = 0;
 
-    compara++;
+    
     if (left < right){
+        compara++;
         // Same as (l+r)/2, but avoids overflow for
         // large l and h
 
@@ -187,19 +203,20 @@ array, and places all smaller (smaller than pivot)
 to left of pivot and all greater elements to right
 of pivot */
 
-int compara_quick;
+
 
 int quick_Partition(int *array, int low, int high){
     
-    int pivot = array[high]; // pivot
+    int pivot = (array[high]+array[low])/2; // pivot
     int i = (low - 1); // Index of smaller element and indicates the right position of pivot found so far
  
     for (int j = low; j <= high - 1; j++){
+        
 
         // If current element is smaller than the pivot
         
         if (array[j] < pivot){
-        
+            
             i++; // increment index of smaller element
             swap(&array[i], &array[j]);
         }
@@ -207,23 +224,61 @@ int quick_Partition(int *array, int low, int high){
     swap(&array[i + 1], &array[high]);
     return (i + 1);
 }
+
+int quick_Partition2 (int *array, int low, int high){
+    int contador = 0;
+    int pivot = array[high]; // pivot
+    int i = (low - 1); // Index of smaller element and indicates the right position of pivot found so far
+ 
+    for (int j = low; j <= high - 1; j++){
+        contador++;
+
+        // If current element is smaller than the pivot
+        
+        if (array[j] < pivot){
+            contador++;
+            i++; // increment index of smaller element
+            swap(&array[i], &array[j]);
+        }
+    }
+    swap(&array[i + 1], &array[high]);
+    return (contador);
+}
  
 /* The main function that implements QuickSort
 arr[] --> Array to be sorted,
 low --> Starting index,
 high --> Ending index */
 
-int quickSort(int *array, int low, int high){
-    int compara;
+void quickSort(int *array, int low, int high){
     
     if (low < high){
+
         /* pi is partitioning index, arr[p] is now
         at right place */
         int partition = quick_Partition(array, low, high);
-
+        
         // Separately sort elements before
         // partition and after partition
+       
+        quickSort(array, low, (partition - 1));
+        quickSort(array, partition + 1, high);
+    }
+}
+
+int quickSort2(int *array, int low, int high){
+    int compara = 0;
+    
+    if (low < high){
         compara++;
+        /* pi is partitioning index, arr[p] is now
+        at right place */
+        int partition = quick_Partition(array, low, high);
+        compara = compara + quick_Partition2(array, low, high);
+        
+        // Separately sort elements before
+        // partition and after partition
+       
         quickSort(array, low, (partition - 1));
         quickSort(array, partition + 1, high);
     }
@@ -240,14 +295,18 @@ int shellSort(int *array, int size) {
     }
 
     while (h > 0) {
+        compara++;
+        
         for(int i = h; i < size; i++){
+            compara++;
             value = array[i];
             j = i;
 
             while (j > h-1 && value <= array[j - h]) {
+                compara++;
                 array[j] = array[j - h];
                 j = j - h;
-                compara++;
+                
             }
             array[j] = value;
         }
@@ -263,15 +322,18 @@ int criaHeap(int *array, int i, int f){
 
     while (j <= f){
         compara++;
+        
         if(j < f){
-
             compara++;
+            
             if(array[j] < array[j + 1]){
+                compara++;
                 j = j + 1;
             }
         }
-        compara++;
+        
         if(aux < array[j]){
+            compara++;
             array[i] = array[j];
             i = j;
             j = 2 * i + 1;
@@ -289,16 +351,17 @@ int heapSort(int *array, int size){
     int aux;
 
     for(int i=(size - 1)/2; i >= 0; i--){
-        criaHeap(array, i, size-1);
         compara++;
+        criaHeap(array, i, size-1);
+        
     }
     for (int i = size-1; i >= 1; i--){
+        compara++;
         aux = array[0];
         array[0] = array[i];
         array[i] = aux;
-        
         criaHeap(array, 0, i - 1);
-        compara++;
+       
     }
     return compara;
 }
