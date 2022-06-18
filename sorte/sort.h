@@ -22,7 +22,6 @@ void print_vector(int* vector, int n);
 bool check_sorted_vector(int* vector, int n);
 
 
-
 // An utility function to test a sort algorithm
 // Inside the test_sort function the vector is copied to the memory
 void test_sort(int* vector, int n, sort algorithm, char* algorithm_name, bool should_print);

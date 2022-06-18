@@ -16,7 +16,7 @@ void swap(int* vector, int i, int j) {
 	vector[j] = temp;
 }
 
-int* generate_random_vector(int n) {
+int *generate_random_vector(int n) {
 	int* vector = malloc(n * sizeof(int));
 
 	for (int i = 0; i < n; i++) {
